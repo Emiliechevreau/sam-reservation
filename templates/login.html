@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion au SAM</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header img {
+            height: 60px;  /* Même taille que la page d'accueil */
+            margin-right: 20px;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 80px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #9CC0FF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        .title {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- En-tête avec logo et titre -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://raw.githubusercontent.com/Chloedw1302/PI2_Images/refs/heads/main/logo_SAM-removebg-preview.png" alt="Logo du SAM" style="width: 150px; height: auto;">
+            <span class="title">Connexion au SAM</span>
+        </div>
+    </div>
+    
+    <!-- Contenu du formulaire de connexion -->
+    <div class="login-container">
+        <h2>Connexion</h2>
+
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <button type="submit">Se connecter</button>
+        </form>
+
+        <div class="form-footer">
+            <p>&copy; 2025 SAM PI²276</p>
+        </div>
+    </div>
+</body>
+</html>

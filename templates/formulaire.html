@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Réservation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header img {
+            height: 60px;
+            margin-right: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .home-icon {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .home-icon img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .home-label {
+            margin-left: 2px;
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-section {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #9CC0FF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        .hidden-input {
+            display: none;
+        }
+    </style>
+    <script>
+        // Fonction pour afficher ou cacher l'input "Autre"
+        function toggleAutre(selectId, inputId) {
+            var selectElement = document.getElementById(selectId);
+            var inputElement = document.getElementById(inputId);
+            
+            // Si "Autre" est sélectionné, on affiche le champ input, sinon on le cache
+            if (selectElement.value === "autre") {
+                inputElement.style.display = "block";
+            } else {
+                inputElement.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Grand encadré blanc avec logo à gauche et titre -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://raw.githubusercontent.com/Chloedw1302/PI2_Images/refs/heads/main/logo_SAM-removebg-preview.png" alt="Logo du SAM" style="width: 150px; height: auto;">
+            <span class="title">Réservation SAM</span>
+        </div>
+        <!-- Bouton retour à droite -->
+        <a href="/" class="home-icon">
+            <img src="https://raw.githubusercontent.com/Emiliechevreau/PI2_images/refs/heads/main/images/bouton_home.png?raw=true" alt="Accueil">
+            <span class="home-label">Retour à l'accueil</span>
+        </a>
+    </div>
+
+    <!-- Formulaire dans un encadré blanc -->
+    <div class="form-section">
+        <form action="/validation" method="post">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" required>
+
+            <label for="prenom">Prénom :</label>
+            <input type="text" id="prenom" name="prenom" required>
+
+            <label for="adresse_depart">Adresse de départ :</label>
+            <select id="adresse_depart" name="adresse_depart" onchange="toggleAutre('adresse_depart', 'adresse_depart_autre')">
+                <option value="domicile">Domicile</option>
+                <option value="AP-HP Groupe hospitalier Lariboisière - Fernand-Widal (Paris)">AP-HP Groupe hospitalier Lariboisière - Fernand-Widal (Paris)</option>
+                <option value="AP-HP Hôpital Bichat - Claude-Bernard (Paris)">AP-HP Hôpital Bichat - Claude-Bernard (Paris)</option>
+                <option value="Centre hospitalier Victor Dupouy (Argenteuil)">Centre hospitalier Victor Dupouy (Argenteuil)</option>
+                <option value="Centre d'accueil et de soins hospitaliers CASH (Nanterre)">Centre d'accueil et de soins hospitaliers CASH (Nanterre)</option>
+                <option value="Groupe hospitalier Sainte Périne - Chardon Lagache - Rossini AP-HP (Paris)">Groupe hospitalier Sainte Périne - Chardon Lagache - Rossini AP-HP (Paris)</option>
+                <option value="Hôpital Foch (Suresnes)">Hôpital Foch (Suresnes)</option>
+                <option value="autre">Autre</option>
+            </select>
+            <input type="text" id="adresse_depart_autre" name="adresse_depart_autre" placeholder="Entrez l'adresse de départ" class="hidden-input">
+
+            <label for="adresse_arrivee">Adresse d'arrivée :</label>
+            <select id="adresse_arrivee" name="adresse_arrivee" onchange="toggleAutre('adresse_arrivee', 'adresse_arrivee_autre')">
+                <option value="domicile">Domicile</option>
+                <option value="AP-HP Groupe hospitalier Lariboisière - Fernand-Widal (Paris)">AP-HP Groupe hospitalier Lariboisière - Fernand-Widal (Paris)</option>
+                <option value="AP-HP Hôpital Bichat - Claude-Bernard (Paris)">AP-HP Hôpital Bichat - Claude-Bernard (Paris)</option>
+                <option value="Centre hospitalier Victor Dupouy (Argenteuil)">Centre hospitalier Victor Dupouy (Argenteuil)</option>
+                <option value="Centre d'accueil et de soins hospitaliers CASH (Nanterre)">Centre d'accueil et de soins hospitaliers CASH (Nanterre)</option>
+                <option value="Groupe hospitalier Sainte Périne - Chardon Lagache - Rossini AP-HP (Paris)">Groupe hospitalier Sainte Périne - Chardon Lagache - Rossini AP-HP (Paris)</option>
+                <option value="Hôpital Foch (Suresnes)">Hôpital Foch (Suresnes)</option>
+                <option value="autre">Autre</option>
+            </select>
+            <input type="text" id="adresse_arrivee_autre" name="adresse_arrivee_autre" placeholder="Entrez l'adresse d'arrivée" class="hidden-input">
+
+            <label for="horaire">Horaire :</label>
+            <input type="datetime-local" id="horaire" name="horaire" required>
+
+            <label for="type_trajet">Type de trajet :</label>
+            <select id="type_trajet" name="type_trajet">
+                <option value="Asnières Aller">Asnières Aller</option>
+                <option value="Asnières Retour">Asnières Retour</option>
+                <option value="Hors Asnières Aller">Hors Asnières Aller</option>
+                <option value="Hors Asnières Retour">Hors Asnières Retour</option>
+            </select>
+ 	     <label for="duree_trajet">Durée estimée du trajet (en minutes) :</label>
+	    <input type="number" id="duree_trajet" name="duree_trajet" min="1" required>
+ 	    <label for="chauffeur">Chauffeur :</label>
+            <select id="chauffeur" name="chauffeur" required>
+                <option value="Chauffeur 1">Chauffeur 1</option>
+                <option value="Chauffeur 2">Chauffeur 2</option>
+                <option value="Chauffeur 3">Chauffeur 3</option>
+                <option value="Chauffeur 4">Chauffeur 4</option>
+                <option value="Chauffeur 5">Chauffeur 5</option>
+            </select>
+
+            <button type="submit">Réserver</button>
+        </form>
+        <div class="form-footer">
+            <p>&copy; 2025 SAM PI²276</p>
+        </div>
+    </div>
+</body>
+</html>

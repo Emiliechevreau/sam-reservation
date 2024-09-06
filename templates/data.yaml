@@ -1,0 +1,8 @@
+path: /content/dataset  # Chemin vers le dossier principal contenant le dataset
+
+train: /content/dataset/train/images  # Chemin vers les images d'entraînement
+val: /content/dataset/valid/images    # Chemin vers les images de validation
+test: /content/dataset/test/images    # Chemin vers les images de test
+
+nc: 7  # Nombre de classes
+names: ['fish', 'jellyfish', 'penguin', 'puffin', 'shark', 'starfish', 'stingray']  # Liste des classes

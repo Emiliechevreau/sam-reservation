@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche de Client</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header img {
+            height: 60px;
+            margin-right: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .home-icon {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .home-icon img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .home-label {
+            margin-left: 5px;
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-section {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #9CC0FF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .alert {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            display: none;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .summary-section {
+            margin-top: 20px;
+        }
+
+        .section-title {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .summary-details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="https://raw.githubusercontent.com/Chloedw1302/PI2_Images/refs/heads/main/logo_SAM-removebg-preview.png" alt="Logo du SAM" style="width: 150px; height: auto;">
+            <span class="title">Recherche de Client</span>
+        </div>
+        <a href="/" class="home-icon">
+            <img src="https://raw.githubusercontent.com/Emiliechevreau/PI2_images/refs/heads/main/images/bouton_home.png?raw=true" alt="Accueil">
+            <span class="home-label">Retour à l'accueil</span>
+        </a>
+    </div>
+
+    <div class="form-section">
+        <h2>Recherche de Résumé Client</h2>
+        
+        <div id="successAlert" class="alert alert-success"></div>
+        <div id="errorAlert" class="alert alert-error"></div>
+        
+        <form id="clientForm">
+            <label for="Nom">Nom :</label>
+            <input type="text" id="Nom" name="Nom" placeholder="Entrez votre nom" required>
+            <label for="Prénom">Prénom :</label>
+            <input type="text" id="Prénom" name="Prénom" placeholder="Entrez votre prénom" required>
+            <button type="button" onclick="searchClient()">Afficher le Résumé</button>
+        </form>
+
+        <div id="summarySection" class="summary-section" style="display: none;">
+            <div class="section-title">Montants par Trimestre</div>
+            <div id="montantsTrimestre" class="summary-details"></div>
+
+            <div class="section-title">Nombre de Courses par Trimestre</div>
+            <div id="coursesTrimestre" class="summary-details"></div>
+        </div>
+
+        <div class="form-footer">
+            <p>&copy; 2025 SAM PI²276</p>
+        </div>
+    </div>
+
+    <script>
+    const clientData = JSON.parse('{{ client_data | tojson | safe }}');
+    
+        function searchClient() {
+            const nom = document.getElementById('Nom').value.trim();
+            const prenom = document.getElementById('Prénom').value.trim();
+            const summarySection = document.getElementById('summarySection');
+            const montantsTrimestreDiv = document.getElementById('montantsTrimestre');
+            const coursesTrimestreDiv = document.getElementById('coursesTrimestre');
+            const successAlert = document.getElementById('successAlert');
+            const errorAlert = document.getElementById('errorAlert');
+
+            // Masquer les alertes précédentes
+            successAlert.style.display = 'none';
+            errorAlert.style.display = 'none';
+
+            // Trouver le client correspondant
+            const client = clientData.find(
+                c => c.Nom.toLowerCase() === nom.toLowerCase() && 
+                     c.Prénom.toLowerCase() === prenom.toLowerCase()
+            );
+
+            if (client) {
+                // Afficher les montants par trimestre
+                montantsTrimestreDiv.innerHTML = `
+                    <p><strong>Trimestre 1 :</strong> ${client['Montant_trimestre_1']} €</p>
+                    <p><strong>Trimestre 2 :</strong> ${client['Montant_trimestre_2']} €</p>
+                    <p><strong>Trimestre 3 :</strong> ${client['Montant_trimestre_3']} €</p>
+                    <p><strong>Trimestre 4 :</strong> ${client['Montant_trimestre_4']} €</p>
+                `;
+
+                // Afficher les nombres de courses par trimestre
+                coursesTrimestreDiv.innerHTML = `
+                    <p><strong>Trimestre 1 :</strong> ${client['Nb_courses_trimestre_1']}</p>
+                    <p><strong>Trimestre 2 :</strong> ${client['Nb_courses_trimestre_2']}</p>
+                    <p><strong>Trimestre 3 :</strong> ${client['Nb_courses_trimestre_3']}</p>
+                    <p><strong>Trimestre 4 :</strong> ${client['Nb_courses_trimestre_4']}</p>
+                `;
+
+                // Afficher la section de résumé
+                summarySection.style.display = 'block';
+                successAlert.textContent = 'Résumé du client trouvé avec succès';
+                successAlert.style.display = 'block';
+            } else {
+                errorAlert.textContent = 'Aucun client trouvé avec ces informations';
+                errorAlert.style.display = 'block';
+                summarySection.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

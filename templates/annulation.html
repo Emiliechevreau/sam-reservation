@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annulation de course</title>
+    <style>
+        /* Styles existants */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header img {
+            height: 60px;
+            margin-right: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .home-icon {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .home-icon img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .home-label {
+            margin-left: 5px;
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-section {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #9CC0FF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Styles pour les messages */
+        .alert {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            display: none;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Style pour la liste des réservations */
+        .reservations {
+            margin-top: 20px;
+        }
+
+        .reservation {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .reservation button {
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reservation button:hover {
+            background-color: #c82333;
+        }
+
+        /* Style pour le message "Aucune réservation" */
+        .no-reservations {
+            text-align: center;
+            font-size: 24px;
+            color: #0056b3; /* Couleur bleue */
+            margin-top: 20px;
+            display: none;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #e0f7fa; /* Fond bleu clair */
+            border: 2px dashed #0056b3; /* Bordure bleue */
+        }
+
+        /* Style pour le popup de confirmation simple */
+        .confirmation-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            padding: 25px;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .confirmation-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #08120a;
+        }
+
+        .confirmation-button {
+            background-color: #9CC0FF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .confirmation-button:hover {
+            background-color: #0056b3;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- En-tête avec logo, titre et bouton retour -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://raw.githubusercontent.com/Chloedw1302/PI2_Images/refs/heads/main/logo_SAM-removebg-preview.png" alt="Logo du SAM" style="width: 150px; height: auto;">
+            <span class="title">Annulation de course</span>
+        </div>
+        <a href="/" class="home-icon">
+            <img src="https://raw.githubusercontent.com/Emiliechevreau/PI2_images/refs/heads/main/images/bouton_home.png?raw=true" alt="Accueil">
+            <span class="home-label">Retour à l'accueil</span>
+        </a>
+    </div>
+
+    <!-- Section du formulaire -->
+    <div class="form-section">
+        <h2>Annuler une course</h2>
+        <!-- Ajout des messages d'alerte -->
+        <div id="successAlert" class="alert alert-success"></div>
+        <div id="errorAlert" class="alert alert-error"></div>
+
+        <form id="annulationForm" onsubmit="handleSubmit(event)">
+            <label for="nom">Nom :</label>
+            <input type="text" id="Nom" name="Nom" placeholder="Entrez votre nom" required>
+            <label for="prénom">Prénom :</label>
+            <input type="text" id="Prénom" name="Prénom" placeholder="Entrez votre prénom" required>
+            <label for="mois">Mois (YYYY-MM) :</label>
+            <input type="month" id="Mois" name="Mois" required>
+            <button type="submit">Rechercher les courses</button>
+        </form>
+
+        <!-- Section pour afficher les réservations -->
+        <div class="reservations" id="reservations">
+            <!-- Les réservations seront affichées ici -->
+        </div>
+
+        <!-- Message pour indiquer qu'il n'y a aucune réservation -->
+        <div class="no-reservations" id="noReservations">Aucune réservation trouvée pour ce mois</div>
+
+        <div class="form-footer">
+            <p>&copy; 2025 SAM PI²276</p>
+        </div>
+    </div>
+
+    <!-- Overlay pour le fond sombre -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Popup de confirmation simple -->
+    <div id="confirmationPopup" class="confirmation-popup">
+        <div class="confirmation-message" id="confirmationMessage"></div>
+        <button class="confirmation-button" onclick="closeConfirmation()">Valider</button>
+    </div>
+
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+
+            // Masquer les alertes précédentes
+            document.getElementById('successAlert').style.display = 'none';
+            document.getElementById('errorAlert').style.display = 'none';
+            document.getElementById('noReservations').style.display = 'none';
+
+            const formData = new FormData(event.target);
+
+            try {
+                const response = await fetch('/annulation', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Afficher les réservations trouvées ou le message "Aucune réservation trouvée pour ce mois"
+                    const reservationsDiv = document.getElementById('reservations');
+                    reservationsDiv.innerHTML = '';
+                    if (data.message) {
+                        document.getElementById('noReservations').style.display = 'block';
+                    } else if (data.reservations && data.reservations.length > 0) {
+                        data.reservations.forEach(reservation => {
+                            const reservationDiv = document.createElement('div');
+                            reservationDiv.classList.add('reservation');
+                            reservationDiv.innerHTML = `
+                                <p><strong>Date:</strong> ${reservation.date}</p>
+                                <p><strong>Horaire:</strong> ${reservation.horaire}</p>
+                                <p><strong>Départ:</strong> ${reservation.depart}</p>
+                                <p><strong>Arrivée:</strong> ${reservation.arrivee}</p>
+                                <p><strong>Montant:</strong> ${reservation.montant} €</p>
+                                <button onclick="annulerCourse('${reservation.id}')">Annuler</button>
+                            `;
+                            reservationsDiv.appendChild(reservationDiv);
+                        });
+                    }
+                } else {
+                    // Afficher le message d'erreur
+                    const errorAlert = document.getElementById('errorAlert');
+                    if (data.missing) {
+                        errorAlert.textContent = `Champs manquants : ${data.missing.join(', ')}`;
+                    } else {
+                        errorAlert.textContent = data.error + (data.details ? ` : ${data.details}` : '');
+                    }
+                    errorAlert.style.display = 'block';
+                }
+            } catch (error) {
+                // Afficher une erreur générique en cas d'échec de la requête
+                const errorAlert = document.getElementById('errorAlert');
+                errorAlert.textContent = "Une erreur est survenue lors de la communication avec le serveur";
+                errorAlert.style.display = 'block';
+            }
+        }
+
+        async function annulerCourse(eventId) {
+            try {
+                const response = await fetch(`/annuler_course/${eventId}`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Afficher le message de confirmation dans le popup
+                    document.getElementById('confirmationMessage').textContent = data.message;
+                    document.getElementById('overlay').style.display = 'block';
+                    document.getElementById('confirmationPopup').style.display = 'block';
+                } else {
+                    // Afficher le message d'erreur
+                    const errorAlert = document.getElementById('errorAlert');
+                    errorAlert.textContent = data.error + (data.details ? ` : ${data.details}` : '');
+                    errorAlert.style.display = 'block';
+                }
+            } catch (error) {
+                // Afficher une erreur générique en cas d'échec de la requête
+                const errorAlert = document.getElementById('errorAlert');
+                errorAlert.textContent = "Une erreur est survenue lors de la communication avec le serveur";
+                errorAlert.style.display = 'block';
+            }
+        }
+
+        function closeConfirmation() {
+            // Masquer le popup et l'overlay
+            document.getElementById('confirmationPopup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            
+            // Recharger les réservations
+            document.getElementById('annulationForm').dispatchEvent(new Event('submit'));
+        }
+    </script>
+</body>
+</html>

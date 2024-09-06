@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation de la Réservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* En-tête avec le logo et le titre */
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header img {
+            height: 60px;
+            margin-right: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .home-icon {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .home-icon img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .home-label {
+            margin-left: 2px;
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        /* Contenu principal pour la validation */
+        .validation-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .validation-container p {
+            font-size: 16px;
+            color: #555555;
+            margin: 5px 0;
+        }
+
+        .validation-container p strong {
+            font-weight: bold;
+        }
+
+        .validation-container p span {
+            font-weight: normal;
+            color: #007bff;
+        }
+
+        /* Formulaire de confirmation */
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #9CC0FF;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden-input {
+            display: none;
+        }
+
+        .form-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-left">
+            <img src="https://raw.githubusercontent.com/Chloedw1302/PI2_Images/refs/heads/main/logo_SAM-removebg-preview.png" alt="Logo du SAM" style="width: 150px; height: auto;">
+            <span class="title">Validation de la Réservation</span>
+        </div>
+        <a href="/" class="home-icon">
+            <img src="https://raw.githubusercontent.com/Emiliechevreau/PI2_images/refs/heads/main/images/bouton_home.png?raw=true" alt="Accueil">
+            <span class="home-label">Retour à l'accueil</span>
+        </a>
+    </div>
+    
+    <div class="validation-container">
+        <p><strong>Nom :</strong> <span>{{ nom }}</span></p>
+        <p><strong>Prénom :</strong> <span>{{ prenom }}</span></p>
+        <p><strong>Adresse de départ :</strong> <span>{{ adresse_depart }}</span></p>
+        <p><strong>Adresse d'arrivée :</strong> <span>{{ adresse_arrivee }}</span></p>
+        <p><strong>Horaire :</strong> <span>{{ horaire.strftime('%d - %m - %Y à %H:%M') }}</span></p>
+        <p><strong>Type de Trajet :</strong> <span>{{ type_trajet }}</span></p>
+	<p><strong>Durée estimée du trajet :</strong> <span>{{ duree_trajet }} minutes</span></p>
+
+
+        <p><strong>Chauffeur sélectionné :</strong> <span> {{ chauffeur }}</span></p>
+
+        <p><strong>Montant :</strong> <span>{{ montant }} €</span></p>
+
+        <form action="/" method="get">
+            <button type="submit">Confirmer et Retour aux Réservations</button>
+        </form>
+    </div>
+
+</body>
+</html>
