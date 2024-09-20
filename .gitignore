@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Google credentials / secrets
+credentials.json
+token.json
+service-account.json
+*.pem
+*.key
+
+# Local business data / generated workbooks
+Base_de_donnees.xlsx
+Récapitulatif_Courses.xlsx
+R#U00e9capitulatif_Courses.xlsx
+
+# Logs / temporary files
+*.log
+*.tmp
+~$*.xlsx
