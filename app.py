@@ -371,7 +371,7 @@ def update_course_data(nom, prenom, adresse_depart, adresse_arrivee, horaire, ty
 def index():
     if not session.get('logged_in'):
         return redirect(url_for('login'))  # Rediriger vers la page de connexion si non connecté
-    return render_template('Page_accueuil.html')
+    return render_template('Page_accueil.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -41,7 +41,7 @@ Contient les vues HTML utilisées par Flask :
 | Fichier | Rôle |
 | --- | --- |
 | `login.html` | Connexion |
-| `Page_accueuil.html` | Tableau de bord |
+| `Page_accueil.html` | Tableau de bord |
 | `formulaire.html` | Création d’une réservation |
 | `validation.html` | Confirmation d’une réservation |
 | `summary.html` | Résumé de facturation client |
