@@ -34,7 +34,7 @@ Le projet propose une interface web permettant de :
 sam-reservation-portfolio/
 ├── app.py                     # Application Flask principale
 ├── main.py                    # Script utilitaire Google Calendar
-├── templates/                 # Pages HTML / Jinja
+├── templates/                 # Pages HTML / Jinja2
 ├── images/                    # Ressources graphiques d'origine
 ├── docs/
 │   ├── ARCHITECTURE.md        # Flux fonctionnels et composants
@@ -52,15 +52,24 @@ sam-reservation-portfolio/
 
 Le code utilise actuellement plusieurs chemins relatifs (`credentials.json`, `token.json`, `Base_de_donnees.xlsx`, `Récapitulatif_Courses.xlsx`) et la convention Flask standard pour `templates/`. Les déplacer sans modifier le code pourrait casser l’exécution. La version portfolio privilégie donc une **réorganisation non destructive**.
 
-## Installation rapide
+## Démarrage rapide après un clone
 
-### 1. Créer un environnement virtuel
+Les fichiers du dossier `templates/` sont des **templates Flask** : ils ne sont pas prévus pour être ouverts directement en double-cliquant sur les fichiers HTML. Il faut démarrer le serveur Flask, puis ouvrir l'application dans un navigateur.
+
+### 1. Cloner le dépôt
+
+```bash
+git clone <URL_DU_DEPOT_GITHUB>
+cd sam-reservation-portfolio
+```
+
+Remplace `<URL_DU_DEPOT_GITHUB>` par l'URL HTTPS ou SSH affichée par GitHub dans le bouton **Code** du dépôt.
+
+### 2. Créer et activer un environnement virtuel
 
 ```bash
 python -m venv .venv
 ```
-
-Activation :
 
 ```bash
 # macOS / Linux
@@ -70,42 +79,85 @@ source .venv/bin/activate
 .venv\Scripts\Activate.ps1
 ```
 
-### 2. Installer les dépendances
+### 3. Installer les dépendances
 
 ```bash
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 3. Configurer Google Calendar
+### 4. Lancer l'application web
 
-1. Créer un projet dans Google Cloud Console.
-2. Activer **Google Calendar API**.
-3. Créer des identifiants OAuth de type application de bureau.
-4. Télécharger le fichier JSON et le placer à la racine sous le nom `credentials.json`.
-5. Ne jamais committer ce fichier.
+```bash
+python app.py
+```
 
-Un modèle est fourni dans `credentials.example.json`.
+Flask démarre par défaut sur :
 
-Lors du premier lancement nécessitant l’API Google, l’application ouvre le flux OAuth puis génère localement `token.json`.
+```text
+http://127.0.0.1:5000
+```
 
-### 4. Ajouter les fichiers de données locaux
+Ouvrir cette adresse dans le navigateur. La page d'accueil redirige vers l'écran de connexion.
 
-Le code attend à la racine :
+**Identifiants de démonstration présents dans le code actuel :**
+
+```text
+Utilisateur : admin
+Mot de passe : password123
+```
+
+Après connexion, l'utilisateur peut accéder au tableau de bord et naviguer entre les pages HTML via l'interface.
+
+### 5. Pages disponibles
+
+| URL locale | Rôle |
+| --- | --- |
+| `http://127.0.0.1:5000/login` | Connexion |
+| `http://127.0.0.1:5000/` | Tableau de bord / accueil |
+| `http://127.0.0.1:5000/formulaire` | Nouvelle réservation |
+| `http://127.0.0.1:5000/summary` | Résumé client |
+| `http://127.0.0.1:5000/annulation` | Annulation d'une course |
+
+> L'interface et la navigation peuvent être lancées après l'installation Python. En revanche, certaines actions métier nécessitent les fichiers Excel locaux et les identifiants Google Calendar décrits ci-dessous.
+
+## Configuration complète
+
+Pour utiliser les fonctionnalités de réservation, facturation et synchronisation Google Calendar, deux éléments supplémentaires sont nécessaires.
+
+### Fichiers Excel
+
+Le code attend à la racine du projet :
 
 ```text
 Base_de_donnees.xlsx
 Récapitulatif_Courses.xlsx
 ```
 
-Ces fichiers ne sont volontairement pas inclus dans la version portfolio car ils peuvent contenir des données personnelles ou opérationnelles. Leur structure est détaillée dans [`docs/DATA_FILES.md`](docs/DATA_FILES.md).
+Ils ne sont pas inclus dans la version portfolio afin d'éviter de publier des données personnelles ou opérationnelles. Leur structure attendue est documentée dans [`docs/DATA_FILES.md`](docs/DATA_FILES.md).
 
-### 5. Lancer l’application
+### Google Calendar
 
-```bash
-python app.py
+1. Créer un projet dans Google Cloud Console.
+2. Activer **Google Calendar API**.
+3. Créer des identifiants OAuth de type **Application de bureau**.
+4. Télécharger le fichier JSON OAuth.
+5. Le placer à la racine du dépôt sous le nom exact `credentials.json`.
+6. Relancer `python app.py` si nécessaire.
+
+Lors de la première action nécessitant Google Calendar, le flux OAuth est lancé et génère localement `token.json`. Ces deux fichiers sont ignorés par Git et ne doivent jamais être publiés.
+
+Un exemple sans secret est fourni dans `credentials.example.json`.
+
+### Arrêter le serveur
+
+Dans le terminal où Flask est lancé :
+
+```text
+Ctrl + C
 ```
 
-Puis ouvrir l’adresse Flask affichée dans le terminal.
+Pour les détails de configuration et le dépannage, voir [`docs/SETUP.md`](docs/SETUP.md).
 
 ## Flux principal
 
