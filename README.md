@@ -1,71 +1,81 @@
-# SAM — Application de réservation et gestion de courses
+# SAM — Ride Booking and Management Application
 
-Application web Flask conçue pour centraliser la **réservation**, le **suivi**, l’**annulation** et la **facturation** de courses, avec synchronisation des créneaux dans **Google Calendar** et stockage opérationnel dans des fichiers Excel.
+SAM is a Flask web application for managing ride **bookings**, **tracking**, **cancellations**, and **billing**. It synchronizes time slots with **Google Calendar** and stores operational data in Excel workbooks.
 
-> Version portfolio : le code applicatif d’origine est conservé tel quel. Le dépôt a uniquement été nettoyé et documenté pour une publication GitHub plus lisible et plus sûre.
+> Portfolio version: the original application code has been preserved. The repository was cleaned up and documented to make it clearer and safer to publish on GitHub.
 
-## Aperçu
+## Project Background
 
-Le projet propose une interface web permettant de :
+This application was developed as a fourth-year Innovation and Industry Project at ESILV. The student team worked with the City of Asnières-sur-Seine to explore how the Municipal Accompaniment Service (SAM) could modernize its transportation booking process for elderly residents.
 
-- authentifier un utilisateur avant l’accès au tableau de bord ;
-- rechercher un client dans une base Excel avec tolérance aux variations de saisie ;
-- créer une réservation et calculer son montant selon le type de trajet ;
-- associer une course à un chauffeur et créer l’événement correspondant dans Google Calendar ;
-- enregistrer les courses dans un récapitulatif Excel ;
-- consulter un résumé de facturation par client et par trimestre ;
-- rechercher et annuler une réservation ;
-- répercuter l’annulation dans Google Calendar et dans les données de facturation.
+The existing workflow relied mainly on phone calls and paper records. This created a significant administrative workload and made it difficult for municipal staff to coordinate bookings, drivers, cancellations, and billing. The project therefore aimed to turn this manual process into a simple digital workflow for staff and drivers while keeping the interface accessible to non-technical users.
 
-## Stack technique
+The team analyzed the municipality's needs, translated them into functional requirements, and refined the solution through interviews, prototypes, regular meetings, and user feedback. Because the underlying information was confidential, the application was developed with fictitious Excel and CSV data. Google Calendar integration was added to connect reservations directly to drivers' calendars.
 
-| Domaine | Technologies |
+The result is a functional prototype and proof of concept. It demonstrates how the SAM workflow could be digitalized, but it was not designed to directly replace the municipality's existing software. The project also produced technical documentation, user documentation, presentations, and a visual poster.
+
+## Overview
+
+The web interface allows users to:
+
+- authenticate before accessing the dashboard;
+- search for a customer in an Excel database while tolerating input variations;
+- create a booking and calculate its price based on the journey type;
+- assign a ride to a driver and create the corresponding Google Calendar event;
+- record rides in an Excel summary workbook;
+- view quarterly billing summaries for each customer;
+- search for and cancel a booking;
+- apply cancellations to Google Calendar and the billing data.
+
+## Tech Stack
+
+| Area | Technologies |
 | --- | --- |
 | Backend | Python, Flask |
 | Frontend | HTML, CSS, JavaScript, Jinja |
-| Données | pandas, openpyxl, Excel `.xlsx` |
+| Data | pandas, openpyxl, Excel `.xlsx` |
 | Matching | RapidFuzz |
-| Intégration | Google Calendar API, OAuth 2.0 |
-| Exécution | Application Flask locale |
+| Integration | Google Calendar API, OAuth 2.0 |
+| Runtime | Local Flask application |
 
-## Architecture du dépôt
+## Repository Structure
 
 ```text
 sam-reservation-portfolio/
-├── app.py                     # Application Flask principale
-├── main.py                    # Script utilitaire Google Calendar
-├── templates/                 # Pages HTML / Jinja2
-├── images/                    # Ressources graphiques d'origine
+├── app.py                     # Main Flask application
+├── main.py                    # Google Calendar utility script
+├── templates/                 # HTML and Jinja2 pages
+├── images/                    # Original graphic assets
 ├── docs/
-│   ├── ARCHITECTURE.md        # Flux fonctionnels et composants
-│   ├── DATA_FILES.md          # Structure attendue des fichiers Excel
-│   ├── SECURITY.md            # Précautions avant publication / déploiement
-│   └── SETUP.md               # Installation détaillée
-├── credentials.example.json   # Exemple OAuth sans secret
-├── requirements.txt           # Dépendances Python
-├── .gitignore                 # Secrets, données locales et fichiers temporaires
-├── .editorconfig              # Conventions d'édition
-└── CONTRIBUTING.md            # Règles de contribution
+│   ├── ARCHITECTURE.md        # Application flows and components
+│   ├── DATA_FILES.md          # Expected Excel workbook structure
+│   ├── SECURITY.md            # Publication and deployment precautions
+│   └── SETUP.md               # Detailed installation guide
+├── credentials.example.json   # OAuth example without secrets
+├── requirements.txt           # Python dependencies
+├── .gitignore                 # Secrets, local data, and temporary files
+├── .editorconfig              # Editor conventions
+└── CONTRIBUTING.md            # Contribution guidelines
 ```
 
-### Pourquoi `app.py` et `templates/` restent à la racine ?
+### Why do `app.py` and `templates/` remain at the repository root?
 
-Le code utilise actuellement plusieurs chemins relatifs (`credentials.json`, `token.json`, `Base_de_donnees.xlsx`, `Récapitulatif_Courses.xlsx`) et la convention Flask standard pour `templates/`. Les déplacer sans modifier le code pourrait casser l’exécution. La version portfolio privilégie donc une **réorganisation non destructive**.
+The application currently relies on relative paths for `credentials.json`, `token.json`, `Base_de_donnees.xlsx`, and `Récapitulatif_Courses.xlsx`, as well as Flask's standard `templates/` convention. Moving these files without changing the code could break the application, so the portfolio version keeps the existing layout.
 
-## Démarrage rapide après un clone
+## Quick Start After Cloning
 
-Les fichiers du dossier `templates/` sont des **templates Flask** : ils ne sont pas prévus pour être ouverts directement en double-cliquant sur les fichiers HTML. Il faut démarrer le serveur Flask, puis ouvrir l'application dans un navigateur.
+The files in `templates/` are **Flask templates**. They are not designed to be opened directly by double-clicking the HTML files. Start the Flask server first, then open the application in a browser.
 
-### 1. Cloner le dépôt
+### 1. Clone the repository
 
 ```bash
-git clone <URL_DU_DEPOT_GITHUB>
+git clone <GITHUB_REPOSITORY_URL>
 cd sam-reservation-portfolio
 ```
 
-Remplace `<URL_DU_DEPOT_GITHUB>` par l'URL HTTPS ou SSH affichée par GitHub dans le bouton **Code** du dépôt.
+Replace `<GITHUB_REPOSITORY_URL>` with the HTTPS or SSH URL shown under the repository's **Code** button on GitHub.
 
-### 2. Créer et activer un environnement virtuel
+### 2. Create and activate a virtual environment
 
 ```bash
 python -m venv .venv
@@ -79,149 +89,149 @@ source .venv/bin/activate
 .venv\Scripts\Activate.ps1
 ```
 
-### 3. Installer les dépendances
+### 3. Install the dependencies
 
 ```bash
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Lancer l'application web
+### 4. Start the web application
 
 ```bash
 python app.py
 ```
 
-Flask démarre par défaut sur :
+By default, Flask starts at:
 
 ```text
 http://127.0.0.1:5000
 ```
 
-Ouvrir cette adresse dans le navigateur. La page d'accueil redirige vers l'écran de connexion.
+Open this address in a browser. The home page redirects to the login screen.
 
-**Identifiants de démonstration présents dans le code actuel :**
+**Demo credentials currently defined in the code:**
 
 ```text
-Utilisateur : admin
-Mot de passe : password123
+Username: admin
+Password: password123
 ```
 
-Après connexion, l'utilisateur peut accéder au tableau de bord et naviguer entre les pages HTML via l'interface.
+After signing in, users can access the dashboard and navigate between the application pages.
 
-### 5. Pages disponibles
+### 5. Available pages
 
-| URL locale | Rôle |
+| Local URL | Purpose |
 | --- | --- |
-| `http://127.0.0.1:5000/login` | Connexion |
-| `http://127.0.0.1:5000/` | Tableau de bord / accueil |
-| `http://127.0.0.1:5000/formulaire` | Nouvelle réservation |
-| `http://127.0.0.1:5000/summary` | Résumé client |
-| `http://127.0.0.1:5000/annulation` | Annulation d'une course |
+| `http://127.0.0.1:5000/login` | Login |
+| `http://127.0.0.1:5000/` | Dashboard and home page |
+| `http://127.0.0.1:5000/formulaire` | New booking |
+| `http://127.0.0.1:5000/summary` | Customer summary |
+| `http://127.0.0.1:5000/annulation` | Ride cancellation |
 
-> L'interface et la navigation peuvent être lancées après l'installation Python. En revanche, certaines actions métier nécessitent les fichiers Excel locaux et les identifiants Google Calendar décrits ci-dessous.
+> The interface and navigation can be started after installing the Python dependencies. Some business operations also require the local Excel workbooks and Google Calendar credentials described below.
 
-## Configuration complète
+## Full Configuration
 
-Pour utiliser les fonctionnalités de réservation, facturation et synchronisation Google Calendar, deux éléments supplémentaires sont nécessaires.
+The booking, billing, and Google Calendar synchronization features require two additional components.
 
-### Fichiers Excel
+### Excel workbooks
 
-Le code attend à la racine du projet :
+The application expects these files at the repository root:
 
 ```text
 Base_de_donnees.xlsx
 Récapitulatif_Courses.xlsx
 ```
 
-Ils ne sont pas inclus dans la version portfolio afin d'éviter de publier des données personnelles ou opérationnelles. Leur structure attendue est documentée dans [`docs/DATA_FILES.md`](docs/DATA_FILES.md).
+They are excluded from the portfolio version to avoid publishing personal or operational data. Their expected structure is documented in [`docs/DATA_FILES.md`](docs/DATA_FILES.md).
 
 ### Google Calendar
 
-1. Créer un projet dans Google Cloud Console.
-2. Activer **Google Calendar API**.
-3. Créer des identifiants OAuth de type **Application de bureau**.
-4. Télécharger le fichier JSON OAuth.
-5. Le placer à la racine du dépôt sous le nom exact `credentials.json`.
-6. Relancer `python app.py` si nécessaire.
+1. Create a project in Google Cloud Console.
+2. Enable the **Google Calendar API**.
+3. Create OAuth credentials for a **Desktop application**.
+4. Download the OAuth JSON file.
+5. Place it at the repository root with the exact name `credentials.json`.
+6. Restart `python app.py` if necessary.
 
-Lors de la première action nécessitant Google Calendar, le flux OAuth est lancé et génère localement `token.json`. Ces deux fichiers sont ignorés par Git et ne doivent jamais être publiés.
+The first operation that requires Google Calendar starts the OAuth flow and generates a local `token.json` file. Both files are ignored by Git and must never be published.
 
-Un exemple sans secret est fourni dans `credentials.example.json`.
+A secret-free example is provided in `credentials.example.json`.
 
-### Arrêter le serveur
+### Stop the server
 
-Dans le terminal où Flask est lancé :
+In the terminal where Flask is running, press:
 
 ```text
 Ctrl + C
 ```
 
-Pour les détails de configuration et le dépannage, voir [`docs/SETUP.md`](docs/SETUP.md).
+See [`docs/SETUP.md`](docs/SETUP.md) for detailed configuration and troubleshooting information.
 
-## Flux principal
+## Main Workflow
 
 ```text
-Connexion
+Login
    ↓
-Tableau de bord
-   ├── Nouvelle réservation
+Dashboard
+   ├── New booking
    │      ↓
-   │  Recherche client → Calcul tarif → Google Calendar → Excel
+   │  Customer search → Price calculation → Google Calendar → Excel
    │
-   ├── Résumé client
+   ├── Customer summary
    │      ↓
-   │  Lecture base Excel → synthèse trimestrielle
+   │  Read Excel database → Quarterly summary
    │
-   └── Annulation
+   └── Cancellation
           ↓
-      Recherche course → suppression Calendar → mise à jour Excel
+      Ride search → Calendar deletion → Excel update
 ```
 
-## Points techniques mis en œuvre
+## Technical Features
 
-- routes Flask avec rendu Jinja et réponses JSON ;
-- gestion de session pour le contrôle d’accès ;
-- lecture et écriture de classeurs Excel ;
-- normalisation des noms et suppression des accents ;
-- fuzzy matching avec `RapidFuzz` ;
-- création et suppression d’événements Google Calendar ;
-- logique de facturation trimestrielle ;
-- gestion multi-chauffeurs via plusieurs calendriers ;
-- adaptation de l’ouverture du fichier Excel selon Windows, macOS ou Linux.
+- Flask routes with Jinja rendering and JSON responses;
+- session management for access control;
+- Excel workbook reading and writing;
+- name normalization and accent removal;
+- fuzzy matching with `RapidFuzz`;
+- Google Calendar event creation and deletion;
+- quarterly billing logic;
+- multiple drivers managed through separate calendars;
+- platform-specific Excel file opening on Windows, macOS, and Linux.
 
-## Sécurité et limites
+## Security and Limitations
 
-Cette application correspond à un projet applicatif / prototype et nécessite plusieurs durcissements avant un déploiement de production :
+This application is a prototype and requires additional hardening before a production deployment:
 
-- identifiants de connexion actuellement définis dans le code ;
-- clé Flask de session définie dans le code ;
-- identifiants de calendriers présents dans le code ;
-- stockage Excel local plutôt qu’une base de données transactionnelle ;
-- gestion des secrets OAuth prévue pour une exécution locale ;
-- absence de suite de tests automatisés dans la version d’origine.
+- login credentials are currently defined in the code;
+- the Flask session key is defined in the code;
+- calendar identifiers are present in the code;
+- data is stored in local Excel workbooks rather than a transactional database;
+- OAuth secrets are designed for local use;
+- the original version does not include an automated test suite.
 
-Ces éléments sont documentés sans être corrigés ici afin de respecter la contrainte : **aucune modification du code applicatif**. Voir [`docs/SECURITY.md`](docs/SECURITY.md).
+These points are documented without changing the application code. See [`docs/SECURITY.md`](docs/SECURITY.md).
 
 ## Documentation
 
-- [Installation détaillée](docs/SETUP.md)
+- [Detailed installation guide](docs/SETUP.md)
 - [Architecture](docs/ARCHITECTURE.md)
-- [Fichiers de données](docs/DATA_FILES.md)
-- [Sécurité](docs/SECURITY.md)
-- [Contribution](CONTRIBUTING.md)
+- [Data files](docs/DATA_FILES.md)
+- [Security](docs/SECURITY.md)
+- [Contribution guidelines](CONTRIBUTING.md)
 
-## Contexte portfolio
+## Portfolio Context
 
-Ce dépôt met notamment en avant :
+This repository demonstrates:
 
-- la conception d’un workflow métier de réservation de bout en bout ;
-- l’intégration d’une API tierce via OAuth 2.0 ;
-- la manipulation de données Excel avec Python ;
-- le traitement de saisies utilisateurs avec fuzzy matching ;
-- la construction d’une application web Flask multi-écrans ;
-- la synchronisation entre interface web, données locales et calendrier externe.
+- the design of an end-to-end booking workflow;
+- third-party API integration through OAuth 2.0;
+- Excel data processing with Python;
+- user input processing with fuzzy matching;
+- development of a multi-page Flask web application;
+- synchronization between a web interface, local data, and an external calendar.
 
-## Licence
+## License
 
-Aucune licence n’est ajoutée automatiquement à cette version. Avant de publier le dépôt, ajouter la licence correspondant réellement aux droits du projet et aux éventuels contributeurs.
+No license has been added automatically. Before publishing the repository, add a license that accurately reflects the project's ownership and contributors' rights.
