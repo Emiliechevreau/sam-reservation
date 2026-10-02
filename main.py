@@ -10,11 +10,11 @@ SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 # Dictionnaire des chauffeurs avec leurs identifiants de calendrier
 chauffeurs_calendars = {
-    "chauffeur_1": "b304705d464df259f4ac5386ca60a84e80369f4c5addcec12cc9a17ee6b69017@group.calendar.google.com",
-    "chauffeur_2": "dacdd5c9691cddf8feeef9b4897752b788f838ed4918982f65df8c250c61cace@group.calendar.google.com",
-    "chauffeur_3": "1d37cc0687ce0462b489b0ef31dd4cc0a9dd01cfcda5dd0a4f816b5705265b2b@group.calendar.google.com",
-    "chauffeur_4": "1845cd7fba2e73d44394bab7a0d9c7c036fff9e8ee855783d44625aae74a65e5@group.calendar.google.com",
-    "chauffeur_5": "a73d79a42fdcdfa87c248b94d1052c78955ece9a5d59a3f25709ef8ad82a3bd3@group.calendar.google.com",
+    "chauffeur_1": "de424181d6c86685839a30b9b9c62db6de45a97323c678896394bbe92cbfbff1@group.calendar.google.com",
+    "chauffeur_2": "d617dbb297331365d1ba8d59e18af95a7f70db29db08d2ffefcd0b12022636e6@group.calendar.google.com",
+    "chauffeur_3": "a599d3ea5281ef706263421ede3b3f00ebf8c32cad2cd5760016d44acee16942@group.calendar.google.com",
+    "chauffeur_4": "a64652188ddba34bfc5b473fe018b3c10e0e4d82155b301ed4574e7f09a2b1ea@group.calendar.google.com",
+    "chauffeur_5": "4134ac1dfa30a995a19ba3f584b5fda017ccedfc8ce9eef9e1ce9291640b6916@group.calendar.google.com",
 }
 
 def main():
